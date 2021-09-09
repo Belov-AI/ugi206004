@@ -17,9 +17,21 @@ namespace PhotoEnhancer
             set { r = CheckValue(value); }
         }
 
+        double g;
+        public double G
+        {
+            get { return g; }
 
-        public double G;
-        public double B;
+            set { g = CheckValue(value); }
+        }
+
+        double b;
+        public double B
+        {
+            get { return b; }
+
+            set { b = CheckValue(value); }
+        }
 
         private double CheckValue(double val)
         {
