@@ -23,6 +23,7 @@ namespace PhotoEnhancer
             InitializeComponent();
 
             comboBoxFilters.Items.Add("Осветление/затемнение");
+            comboBoxFilters.SelectedIndex = 0;
             var orig = Image.FromFile("cat.jpg") as Bitmap;
             originalPhoto = Convertors.Bimap2Photo(orig);
             pictureBoxOriginal.Image = orig;
@@ -72,33 +73,19 @@ namespace PhotoEnhancer
         private void buttonApply_Click(object sender, EventArgs e)
         {
             //resultBmp = new Bitmap(originalBmp.Width, originalBmp.Height);
-            var newPhoto = new Photo(originalPhoto.Width, originalPhoto.Height);
+            resultPhoto = new Photo(originalPhoto.Width, originalPhoto.Height);
             
             if(comboBoxFilters.SelectedItem.ToString() == "Осветление/затемнение")
             {
                 for (int x = 0; x < originalPhoto.Width; x++)
                     for(int y = 0; y < originalPhoto.Height; y++)
                     {
-                        var pixel = originalPhoto.Data[x, y];
-
                         var k = (double)(parametersPanel.Controls["coefficient"] as NumericUpDown).Value;
 
-                        var newR = pixel.R * k;
-                        if (newR > 1) newR = 1;
-
-                        var newG = pixel.G * k;
-                        if (newG > 1) newG = 1;
-
-                        var newB = pixel.B * k;
-                        if (newB > 1) newB = 1;
-
-                        newPhoto.Data[x, y].R = newR;
-                        newPhoto.Data[x, y].B = newB;
-                        newPhoto.Data[x, y].G = newG;
-
+                        resultPhoto[x, y] = originalPhoto[x, y] * k;
                     }
 
-                pictureBoxResult.Image = Convertors.Photo2Bitmap(newPhoto);
+                pictureBoxResult.Image = Convertors.Photo2Bitmap(resultPhoto);
             }
         }
     }

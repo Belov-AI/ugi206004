@@ -8,16 +8,29 @@ namespace PhotoEnhancer
 {
     public class Photo
     {
-        public int Width { get { return Data.GetLength(0); } }
+        public readonly int Width;
 
-        public int Height { get { return Data.GetLength(1); } }
+        public readonly int Height;
 
-
-        public Pixel[,] Data;
+        private readonly Pixel[,] data;
 
         public Photo(int width, int height)
         {
-            Data = new Pixel[width, height];
+            Width = width;
+            Height = height;
+
+            data = new Pixel[width, height];
+
+            for (int x = 0; x < Width; x++)
+                for (int y = 0; y < Height; y++)
+                    data[x, y] = new Pixel(0, 0, 0);
+        }
+
+        public Pixel this[int x, int y]
+        {
+            get { return data[x, y]; }
+
+            set { data[x, y] = value; }
         }
     }
 }

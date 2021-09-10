@@ -17,9 +17,12 @@ namespace PhotoEnhancer
                 for(var y = 0; y < bmp.Height; y++)
                 {
                     var pixel = bmp.GetPixel(x, y);
-                    result.Data[x, y].R = (double)pixel.R / 255;
-                    result.Data[x, y].G = (double)pixel.G / 255;
-                    result.Data[x, y].B = (double)pixel.B / 255;
+
+                    result[x, y] = new Pixel(
+                        (double)pixel.R / 255,
+                        (double)pixel.G / 255,
+                        (double)pixel.B / 255
+                        );
                 }
 
             return result;
@@ -32,9 +35,9 @@ namespace PhotoEnhancer
             for (var x = 0; x < photo.Width; x++)
                 for(var y = 0; y < photo.Height; y++)
                     result.SetPixel(x, y, Color.FromArgb(
-                        (int)photo.Data[x, y].R * 255,
-                        (int)photo.Data[x, y].G * 255,
-                        (int)photo.Data[x, y].B * 255
+                        (int)Math.Round(photo[x, y].R * 255),
+                        (int)Math.Round(photo[x, y].G * 255),
+                        (int)Math.Round(photo[x, y].B * 255)
                         ));
 
             return result;      
