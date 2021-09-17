@@ -24,14 +24,14 @@ namespace PhotoEnhancer
         public MainForm()
         {
             InitializeComponent();
-
-            var orig = Image.FromFile("cat.jpg") as Bitmap;
-            originalPhoto = Convertors.Bimap2Photo(orig);
-            pictureBoxOriginal.Image = orig;
         }
 
         private void comboBoxFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var filter = comboBoxFilters.SelectedItem as IFilter;
+
+            if (filter == null) return;
+
             if (parametersPanel != null)
                 Controls.Remove(parametersPanel);
 
@@ -41,10 +41,6 @@ namespace PhotoEnhancer
             parametersPanel.Top = comboBoxFilters.Bottom + linesGap;
             parametersPanel.Width = comboBoxFilters.Width;
             parametersPanel.Height = buttonApply.Top - comboBoxFilters.Bottom - lineHeight;
-
-            var filter = comboBoxFilters.SelectedItem as IFilter;
-
-            if (filter == null) return;
 
             parameterControls = new List<NumericUpDown>();
 
@@ -94,8 +90,28 @@ namespace PhotoEnhancer
         {
             comboBoxFilters.Items.Add(filter);
 
-            if(comboBoxFilters.SelectedIndex == -1)
-                comboBoxFilters.SelectedIndex = 0;
+            
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(openPictureDialog.ShowDialog() == DialogResult.OK)
+            {
+                buttonApply.Visible = true;
+                comboBoxFilters.Visible = true;
+
+                if (comboBoxFilters.SelectedIndex == -1)
+                    comboBoxFilters.SelectedIndex = 0;
+
+                var orig = Image.FromFile(openPictureDialog.FileName) as Bitmap;
+                originalPhoto = Convertors.Bimap2Photo(orig);
+                pictureBoxOriginal.Image = orig;
+            }
         }
     }
 }
