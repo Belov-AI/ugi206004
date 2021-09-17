@@ -9,7 +9,7 @@ namespace PhotoEnhancer
     public class ParameterInfo
     {
         public string Name;
-        public double DafaultValue;
+        public double DefaultValue;
         public double MinValue;
         public double MaxValue;
         public double Increment;

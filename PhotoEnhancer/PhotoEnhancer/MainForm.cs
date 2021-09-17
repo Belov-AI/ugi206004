@@ -13,17 +13,18 @@ namespace PhotoEnhancer
     public partial class MainForm : Form
     {
         Panel parametersPanel;
-        //Bitmap originalBmp;
-        //Bitmap resultBmp;
-
         Photo originalPhoto;
         Photo resultPhoto;
+        List<NumericUpDown> parameterControls;
+
+        const int lineHeight = 20;
+        const int linesGap = 10;
+        const int inputFieldWidth = 50;
+
         public MainForm()
         {
             InitializeComponent();
 
-            comboBoxFilters.Items.Add("Осветление/затемнение");
-            comboBoxFilters.SelectedIndex = 0;
             var orig = Image.FromFile("cat.jpg") as Bitmap;
             originalPhoto = Convertors.Bimap2Photo(orig);
             pictureBoxOriginal.Image = orig;
@@ -35,35 +36,41 @@ namespace PhotoEnhancer
                 Controls.Remove(parametersPanel);
 
             parametersPanel = new Panel();
-            //parametersPanel.BackColor = Color.DarkGray;
+
             parametersPanel.Left = comboBoxFilters.Left;
-            parametersPanel.Top = comboBoxFilters.Bottom + 10;
+            parametersPanel.Top = comboBoxFilters.Bottom + linesGap;
             parametersPanel.Width = comboBoxFilters.Width;
-            parametersPanel.Height = buttonApply.Top - comboBoxFilters.Bottom - 20;
+            parametersPanel.Height = buttonApply.Top - comboBoxFilters.Bottom - lineHeight;
 
-            var filter = comboBoxFilters.SelectedItem;
+            var filter = comboBoxFilters.SelectedItem as IFilter;
 
-            if(filter.ToString() == "Осветление/затемнение")
+            if (filter == null) return;
+
+            parameterControls = new List<NumericUpDown>();
+
+            var filterParameters = filter.GetParametersInfo();
+
+            for(var i = 0; i < filterParameters.Length; i++)
             {
                 var label = new Label();
+                label.Height = lineHeight;
                 label.Left = 0;
-                label.Top = 0;
-                label.Width = parametersPanel.Width - 50;
-                label.Height = 20;
-                label.Text = "Коэффициент";
+                label.Top = i * (label.Height + linesGap);
+                label.Width = parametersPanel.Width - inputFieldWidth;
+                label.Text = filterParameters[i].Name;
                 parametersPanel.Controls.Add(label);
 
                 var inputBox = new NumericUpDown();
                 inputBox.Left = label.Right;
                 inputBox.Top = label.Top;
-                inputBox.Width = 50;
+                inputBox.Width = inputFieldWidth;
                 inputBox.Height = label.Height;
-                inputBox.Minimum = 0;
-                inputBox.Maximum = 10;
-                inputBox.Increment = (decimal)0.05;
                 inputBox.DecimalPlaces = 2;
-                inputBox.Value = 1;
-                inputBox.Name = "coefficient";
+                inputBox.Minimum = (decimal)filterParameters[i].MinValue;
+                inputBox.Maximum = (decimal)filterParameters[i].MaxValue;
+                inputBox.Increment = (decimal)filterParameters[i].Increment;
+                inputBox.Value = (decimal)filterParameters[i].DefaultValue;
+                parameterControls.Add(inputBox);
                 parametersPanel.Controls.Add(inputBox);
             }
 
@@ -72,21 +79,23 @@ namespace PhotoEnhancer
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
-            //resultBmp = new Bitmap(originalBmp.Width, originalBmp.Height);
-            resultPhoto = new Photo(originalPhoto.Width, originalPhoto.Height);
-            
-            if(comboBoxFilters.SelectedItem.ToString() == "Осветление/затемнение")
-            {
-                for (int x = 0; x < originalPhoto.Width; x++)
-                    for(int y = 0; y < originalPhoto.Height; y++)
-                    {
-                        var k = (double)(parametersPanel.Controls["coefficient"] as NumericUpDown).Value;
+            var filter = comboBoxFilters.SelectedItem as IFilter;
 
-                        resultPhoto[x, y] = originalPhoto[x, y] * k;
-                    }
+            var parameters = new double[parameterControls.Count];
 
-                pictureBoxResult.Image = Convertors.Photo2Bitmap(resultPhoto);
-            }
+            for (var i = 0; i < parameters.Length; i++)
+                parameters[i] = (double)parameterControls[i].Value;
+
+            resultPhoto = filter.Process(originalPhoto, parameters);
+            pictureBoxResult.Image = Convertors.Photo2Bitmap(resultPhoto);
+        }
+
+        public void AddFilter(IFilter filter)
+        {
+            comboBoxFilters.Items.Add(filter);
+
+            if(comboBoxFilters.SelectedIndex == -1)
+                comboBoxFilters.SelectedIndex = 0;
         }
     }
 }

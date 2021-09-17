@@ -8,7 +8,7 @@ namespace PhotoEnhancer
 {
     public interface IFilter
     {
-        ParameterInfo[] GetParameterInfo();
+        ParameterInfo[] GetParametersInfo();
         Photo Process(Photo original, double[] parameters);
     }
 }
