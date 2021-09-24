@@ -8,12 +8,9 @@ namespace PhotoEnhancer
 {
     public class GrayScaleFilter : PixelFilter
     {
-        public override ParameterInfo[] GetParametersInfo()
-        {
-            return new ParameterInfo[0];
-        }
+        public GrayScaleFilter() : base(new EmptyParameters()) { }
 
-        public override Pixel ProcessPixel(Pixel original, double[] parameters)
+        public override Pixel ProcessPixel(Pixel original, IParameters parameters)
         {
             var channel = 0.3 * original.R + 0.6 * original.G + 0.1 * original.B;
             return new Pixel(channel, channel, channel);

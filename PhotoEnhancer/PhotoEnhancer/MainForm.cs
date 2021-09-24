@@ -113,5 +113,14 @@ namespace PhotoEnhancer
                 pictureBoxOriginal.Image = orig;
             }
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(savePictureDialog.ShowDialog() == DialogResult.OK)
+            {
+                var bmp = Convertors.Photo2Bitmap(resultPhoto);
+                bmp.Save(savePictureDialog.FileName, System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+        }
     }
 }
