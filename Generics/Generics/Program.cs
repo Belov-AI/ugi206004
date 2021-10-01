@@ -15,11 +15,21 @@ namespace Generics
             Console.ReadKey();
         }
 
-        static ... Max...(...[] source) ...
+        static T Max<T> (T[] source) where T : IComparable<T>
         {
             if(source.Length == 0)
-            return default(...);
-            ...
+                return default(T);
+
+            if (source.Length == 1)
+                return source[0];
+
+            var max = source[0];
+
+            for (var i = 1; i < source.Length; i++)
+                if (source[i].CompareTo(max) > 0 )
+                    max = source[i];
+
+            return max;
         }
     }
 }
