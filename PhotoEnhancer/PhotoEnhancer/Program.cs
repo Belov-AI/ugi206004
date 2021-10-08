@@ -18,8 +18,20 @@ namespace PhotoEnhancer
             Application.SetCompatibleTextRenderingDefault(false);
 
             var mainForm = new MainForm();
-            mainForm.AddFilter(new LighteningFilter());
-            mainForm.AddFilter(new GrayScaleFilter());
+
+            mainForm.AddFilter(new PixelFilter<LighteningParameters>(
+                "Осветление/затемнение",
+                (pixel, parameters) => pixel * parameters.Coefficent
+                ));
+
+            mainForm.AddFilter(new PixelFilter<EmptyParameters> (
+                "Оттенки серого",
+                (pixel, parameters) => 
+                    {
+                        var channel = 0.3 * pixel.R + 0.6 * pixel.G + 0.1 * pixel.B;
+                        return new Pixel(channel, channel, channel);
+                    }
+                ));
 
             Application.Run(mainForm);
         }
