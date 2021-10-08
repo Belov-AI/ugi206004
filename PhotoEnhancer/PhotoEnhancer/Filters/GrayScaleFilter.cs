@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace PhotoEnhancer
 {
-    public class GrayScaleFilter : PixelFilter
+    public class GrayScaleFilter : PixelFilter<EmptyParameters>
     {
-        public GrayScaleFilter() : base(new EmptyParameters()) { }
-
-        public override Pixel ProcessPixel(Pixel original, IParameters parameters)
+        public override Pixel ProcessPixel(Pixel original, EmptyParameters parameters)
         {
             var channel = 0.3 * original.R + 0.6 * original.G + 0.1 * original.B;
             return new Pixel(channel, channel, channel);

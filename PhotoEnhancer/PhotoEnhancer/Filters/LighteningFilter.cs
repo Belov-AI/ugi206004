@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace PhotoEnhancer
 {
-    public class LighteningFilter : PixelFilter
+    public class LighteningFilter : PixelFilter<LighteningParameters>
     {
-        public LighteningFilter() : base(new LighteningParameters()) { }
-
-        public override Pixel ProcessPixel(Pixel original, IParameters parameters)
+        public override Pixel ProcessPixel(Pixel original, LighteningParameters parameters)
         {
-            return original * (parameters as LighteningParameters).Coefficent;
+            return original * parameters.Coefficent;
         }
 
         public override string ToString()
