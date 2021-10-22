@@ -93,7 +93,7 @@ namespace ShapesTestProject
             Assert.IsTrue(CheckOYIntersection(line));
 
             var segment = new Segment(p1, p2);
-            Assert.IsTrue(CheckOYIntersection(segment));
+            Assert.IsFalse(CheckOYIntersection(segment));
         }
 
         void DrawObjects(List<Shape> shapes)
@@ -114,9 +114,9 @@ namespace ShapesTestProject
             rectangle.Width += 1; 
         }
 
-        bool CheckOYIntersection(Line line)
+        bool CheckOYIntersection(LinearObject obj)
         {
-            return line.IsOn(new Point(0, line.B));
+            return obj.IsOn(new Point(0, obj.B));
         }
     }
 }

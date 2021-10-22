@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shapes
 {
-    public class Segment : Line
+    public class Segment : LinearObject
     {
         public double Length
         {
@@ -22,7 +22,7 @@ namespace Shapes
 
         public override bool IsOn(Point p)
         {
-            return base.IsOn(p) && (P2.X - p.X) * (p.X - P1.X) > -1e-8;
+            return IsOnLine(p) && (P2.X - p.X) * (p.X - P1.X) > -1e-8;
         }
 
         public override void Draw()
