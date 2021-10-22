@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shapes
 {
-    public class Rectangle
+    public class Rectangle : Shape
     {
         public Point TopLeft;
         double width;
@@ -44,12 +44,12 @@ namespace Shapes
             Height = height;
         }
 
-        public double Area
+        public override double Area
         {
             get { return Width * Height; }
         }
 
-        public void Draw()
+        public override void Draw()
         {
             throw new NotImplementedException();
             // здесь нужно дописать код рисования прямоугольника

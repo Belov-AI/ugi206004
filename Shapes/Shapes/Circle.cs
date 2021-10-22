@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shapes
 {
-    public class Circle
+    public class Circle : Shape
     {
         public Point Center;
 
@@ -30,12 +30,12 @@ namespace Shapes
             Radius = radius;
         }
 
-        public double Area
+        public override double Area
         {
             get { return Math.PI * Radius * Radius; }
         }
 
-        public void Draw()
+        public override void Draw()
         {
             throw new NotImplementedException();
             // здесь нужно дописать код рисования круга
