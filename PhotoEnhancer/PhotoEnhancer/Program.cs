@@ -46,6 +46,9 @@ namespace PhotoEnhancer
                 (point, size) => new Point(size.Width - point.Y - 1, point.X)
                 ));
 
+            mainForm.AddFilter(new TransformFilter<RotationParameters>(
+                "Поворот на заданный угол", new RotateTransformer()));
+
             Application.Run(mainForm);
         }
     }
