@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Devices
 {
-    public class Lamp
+    public class Lamp : IButtonMahagedDevice
     {
         public bool IsActive { get; private set; }
 

@@ -23,23 +23,19 @@ namespace DevicesUnitTests
         [TestMethod]
         public void TestButton()
         {
-            var lamp = new Lamp();
-            var button = new Button(lamp);
+            TestButtonWithNewDevice(new Lamp());
+            TestButtonWithNewDevice(new ElectricMotor(1200));
+            TestButtonWithNewDevice(new TVSet(100));
+        }
 
-            Assert.IsFalse(lamp.IsActive);
+        void TestButtonWithNewDevice(IButtonMahagedDevice device)
+        {
+            var button = new Button(device);
+            Assert.IsFalse(device.IsActive);
             button.Press();
-            Assert.IsTrue(lamp.IsActive);
+            Assert.IsTrue(device.IsActive);
             button.Press();
-            Assert.IsFalse(lamp.IsActive);
-
-            var motor = new ElectricMotor(1200);
-            button = new Button(motor);
-
-            Assert.IsFalse(motor.IsActive);
-            button.Press();
-            Assert.IsTrue(motor.IsActive);
-            button.Press();
-            Assert.IsFalse(motor.IsActive);
+            Assert.IsFalse(device.IsActive);
         }
     }
 }

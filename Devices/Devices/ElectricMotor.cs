@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Devices
 {
-    public class ElectricMotor
+    public class ElectricMotor : IButtonMahagedDevice
     {
         public bool IsActive { get; private set; }
         public double RotationSpeed { get; private set; }
