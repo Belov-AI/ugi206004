@@ -31,6 +31,15 @@ namespace DevicesUnitTests
             Assert.IsTrue(lamp.IsActive);
             button.Press();
             Assert.IsFalse(lamp.IsActive);
+
+            var motor = new ElectricMotor(1200);
+            button = new Button(motor);
+
+            Assert.IsFalse(motor.IsActive);
+            button.Press();
+            Assert.IsTrue(motor.IsActive);
+            button.Press();
+            Assert.IsFalse(motor.IsActive);
         }
     }
 }

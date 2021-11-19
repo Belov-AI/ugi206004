@@ -8,19 +8,29 @@ namespace Devices
 {
     public class Button
     {
-        Lamp lamp;
+        object obj;
 
-        public Button(Lamp lamp)
+        public Button(object obj)
         {
-            this.lamp = lamp;
+            this.obj = obj;
         }
 
         public void Press()
         {
-            if (lamp.IsActive)
-                lamp.TurnOff();
-            else
-                lamp.TurnOn();
+            if(obj is Lamp lamp)
+            {
+                if (lamp.IsActive)
+                    lamp.TurnOff();
+                else
+                    lamp.TurnOn();
+            }
+            else if (obj is ElectricMotor motor)
+            {
+                if (motor.IsActive)
+                    motor.TurnOff();
+                else
+                    motor.TurnOn();
+            }           
         }
     }
 }
