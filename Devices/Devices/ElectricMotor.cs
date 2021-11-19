@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Devices
 {
-    public class ElectricMotor : IButtonMahagedDevice
+    public class ElectricMotor : ButtonMahagedDevice
     {
-        public bool IsActive { get; private set; }
         public double RotationSpeed { get; private set; }
 
         double nominalRotationSpeed;
@@ -18,16 +17,16 @@ namespace Devices
             nominalRotationSpeed = nominalSpeed;
         }
 
-        public void TurnOn()
+        public override void TurnOn()
         {
-            IsActive = true;
+            base.TurnOn();
             RotationSpeed = nominalRotationSpeed;
         }
 
-        public void TurnOff()
+        public override void TurnOff()
         {
             RotationSpeed = 0;
-            IsActive = false;
+            base.TurnOff();
         }
 
         public void IncreaseRotationSpeed(double delta)

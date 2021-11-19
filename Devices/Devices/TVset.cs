@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Devices
 {
-    public class TVSet : IButtonMahagedDevice
+    public class TVSet : ButtonMahagedDevice
     {
-        public bool IsActive{ get; private set; }
         int programNumber;
         int maxProgramNumber;
 
@@ -18,14 +17,14 @@ namespace Devices
             programNumber = 1;
         }
 
-        public void TurnOff()
+        public override void TurnOff()
         {
-            IsActive = false;
+            base.TurnOff();
         }
 
-        public void TurnOn()
+        public override void TurnOn()
         {
-            IsActive = true;
+            base.TurnOn();
         }
 
         public void ChooseProgram(int number)

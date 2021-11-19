@@ -8,9 +8,9 @@ namespace Devices
 {
     public class Button
     {
-        IButtonMahagedDevice device;
+        ButtonMahagedDevice device;
 
-        public Button(IButtonMahagedDevice device)
+        public Button(ButtonMahagedDevice device)
         {
             this.device = device;
         }

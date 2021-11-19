@@ -28,7 +28,7 @@ namespace DevicesUnitTests
             TestButtonWithNewDevice(new TVSet(100));
         }
 
-        void TestButtonWithNewDevice(IButtonMahagedDevice device)
+        void TestButtonWithNewDevice(ButtonMahagedDevice device)
         {
             var button = new Button(device);
             Assert.IsFalse(device.IsActive);

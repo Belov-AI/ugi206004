@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 namespace Devices
 {
-    public class Lamp : IButtonMahagedDevice
+    public class Lamp : ButtonMahagedDevice
     {
-        public bool IsActive { get; private set; }
 
-        public void TurnOn()
+        public override void TurnOn()
         {
-            IsActive = true;
+            base.TurnOn();
         }
 
-        public void TurnOff()
+        public override void TurnOff()
         {
-            IsActive = false;
+            base.TurnOff();
         }
     }
 }
