@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{379B11D1-30E9-4E99-A1BD-1AD45CA0CE17}</ProjectGuid>
+    <ProjectGuid>{73964212-23B5-411C-A95D-C51C29BD2CA0}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>LinqTask4</RootNamespace>
-    <AssemblyName>LinqTask4</AssemblyName>
+    <RootNamespace>LinqTask5</RootNamespace>
+    <AssemblyName>LinqTask5</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,8 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Photo.cs" />
-    <Compile Include="Pixel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
