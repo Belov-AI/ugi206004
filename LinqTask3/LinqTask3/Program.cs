@@ -15,7 +15,8 @@ namespace LinqTask3
                 new Group() {Students = new List<string>{"Николай", "Пётр", "Елена", "Наталья"}},
                 new Group() {Students = new List<string>{"Софья", "Андрей", "Николай" } },
                 new Group() {Students = new List<string>()},
-                new Group() {Students = new List<string>{"Елена", "Андрей" } }
+                new Group() {Students = new List<string>{"Елена", "Андрей" } },
+                new Group() { Students = new List<string>{ "Николай"} }
             };
 
 
@@ -33,9 +34,23 @@ namespace LinqTask3
                 .ToList();
 
             PrintSequence(names);
-
+            Console.WriteLine($"Общее число студентов: {GetTotalAmountOfStudents(groups)}");
+            Console.WriteLine($"Среднее число студентов в группе: {GetAverageofStudentsPerGroup(groups):F3}");
 
             Console.ReadKey();
+        }
+
+        //Задача 8
+        static int GetTotalAmountOfStudents(List<Group> groups)
+        {
+            return groups
+                .SelectMany(g => g.Students)
+                .Count();
+        }
+
+        static double GetAverageofStudentsPerGroup(List<Group> groups)
+        {
+            return groups.Average(g => g.Students.Count());
         }
 
         static void PrintSequence<T>(IEnumerable<T> sequence)

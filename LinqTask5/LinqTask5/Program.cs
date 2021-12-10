@@ -31,15 +31,16 @@ namespace LinqTask5
 
             PrintSequence(GetWordsByLength(text));
 
+            Console.WriteLine(GetLongestWordWithSort(text));
+            Console.WriteLine(GetLongestWord(text));
+
             Console.ReadKey();
 
         }
 
         static List<string> GetWordsInAlphabeticalOrder(string[] lines)
         {
-            return lines
-                .SelectMany(line => line.Split(' ', '.', ',', ';', ':', '!', '?', '*', '—', '"', '«', '»'))
-                .Where(word => word.Length > 0 && char.IsLetter(word[0]))
+            return GetWordsInLowerCase(lines)
                 .OrderBy(word => word)
                 .Select(word => word.ToLower())
                 .Distinct()
@@ -49,14 +50,48 @@ namespace LinqTask5
         //Задача 6
         static List<string> GetWordsByLength(string[] lines)
         {
-            return lines
-                .SelectMany(line => line.Split(' ', '.', ',', ';', ':', '!', '?', '*', '—', '"', '«', '»'))
-                .Where(w => w.Length > 0 && char.IsLetter(w[0]))
-                .Select(w => w.ToLower())
+            return GetWordsInLowerCase(lines)
+                .Distinct()
+                .OrderBy(w => w.Length)
+                .ThenBy(w => w)
+                .ToList();
+        }
+
+        //Задача 7  с сортировкой
+        static string GetLongestWordWithSort(string[] lines)
+        {
+            return GetWordsInLowerCase(lines)
                 .Distinct()
                 .OrderByDescending(w => w.Length)
                 .ThenBy(w => w)
-                .ToList();
+                .FirstOrDefault();
+        }
+
+        //Задача 7
+        static string GetLongestWord(string[] lines)
+        {
+            return GetWordsInLowerCase(lines)
+                .Distinct()
+                .Select(w => (-w.Length, w))
+                .Min()
+                .Item2;
+        }
+
+        //Задача 11
+        static Dictionary<char, int> GetFrequencyDictionary(string[] lines)
+        {
+            return GetWordsInLowerCase(lines)
+                .GroupBy(w => w[0])
+                .ToDictionary(g => g.Key, g => g.Count());
+        }
+
+
+        static IEnumerable<string> GetWordsInLowerCase(IEnumerable<string> lines)
+        {
+            return lines
+               .SelectMany(line => line.Split(' ', '.', ',', ';', ':', '!', '?', '*', '—', '"', '«', '»'))
+               .Where(w => w.Length > 0 && char.IsLetter(w[0]))
+               .Select(w => w.ToLower());
         }
 
         static void PrintSequence<T>(IEnumerable<T> sequence)
