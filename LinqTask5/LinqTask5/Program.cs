@@ -34,6 +34,14 @@ namespace LinqTask5
             Console.WriteLine(GetLongestWordWithSort(text));
             Console.WriteLine(GetLongestWord(text));
 
+            Console.WriteLine();
+            var dict = GetFrequencyDictionary(text);
+            PrintFrequencyDictionary(dict);
+            PrintFrequencyDictionary(dict
+                .OrderByDescending(elem => elem.Value)
+                .ToDictionary(elem => elem.Key, elem => elem.Value)
+                );
+
             Console.ReadKey();
 
         }
@@ -78,11 +86,15 @@ namespace LinqTask5
         }
 
         //Задача 11
-        static Dictionary<char, int> GetFrequencyDictionary(string[] lines)
+        static Dictionary<char, double> GetFrequencyDictionary(string[] lines)
         {
-            return GetWordsInLowerCase(lines)
+
+            var words = GetWordsInLowerCase(lines);
+            double totalAmount = words.Count();
+            return words
                 .GroupBy(w => w[0])
-                .ToDictionary(g => g.Key, g => g.Count());
+                .OrderBy(g => g.Key)
+                .ToDictionary(g => char.ToUpper(g.Key), g => g.Count()/totalAmount);
         }
 
 
@@ -100,6 +112,14 @@ namespace LinqTask5
                 Console.Write($"{elem} ");
 
             Console.WriteLine("\n");
+        }
+
+        static void PrintFrequencyDictionary(Dictionary<char,double> dictionary)
+        {
+            foreach (var elem in dictionary)
+                Console.WriteLine($"{elem.Key}: {elem.Value:F4}");
+
+            Console.WriteLine();
         }
     }
 }
