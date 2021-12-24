@@ -8,11 +8,6 @@ namespace PhotoEnhancer
 {
     public class EmptyParameters : IParameters
     {
-        public ParameterInfo[] GetDisciption()
-        {
-            return new ParameterInfo[0];
-        }
 
-        public void SetValues(double[] values) { }
     }
 }

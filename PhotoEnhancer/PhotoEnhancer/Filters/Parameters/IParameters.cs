@@ -8,7 +8,6 @@ namespace PhotoEnhancer
 {
     public interface IParameters
     {
-        ParameterInfo[] GetDisciption();
-        void SetValues(double[] values);
+
     }
 }

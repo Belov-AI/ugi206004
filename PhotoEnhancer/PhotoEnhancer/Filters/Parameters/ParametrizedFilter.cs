@@ -18,7 +18,7 @@ namespace PhotoEnhancer
 
         public ParameterInfo[] GetParametersInfo()
         {
-            return new TParameters().GetDisciption();
+            return new TParameters().GetDescription();
         }
 
         public Photo Process(Photo original, double[] values)
