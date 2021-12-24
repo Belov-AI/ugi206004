@@ -11,6 +11,8 @@ namespace PhotoEnhancer
     {
         string name;
 
+        IParametersFactory<TParameters> factory = new AdvancedParametersFactory<TParameters>();
+
         public ParametrizedFilter(string name)
         {
             this.name = name;
@@ -18,13 +20,12 @@ namespace PhotoEnhancer
 
         public ParameterInfo[] GetParametersInfo()
         {
-            return new TParameters().GetDescription();
+            return factory.GetDescription();
         }
 
         public Photo Process(Photo original, double[] values)
         {
-            var parameters = new TParameters();
-            parameters.SetValues(values);
+            var parameters = factory.CreateParameters(values);
             return Process(original, parameters);
         }
 

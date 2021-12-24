@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PhotoEnhancer
 {
-    public static class ParametersExtensions
+    public class SimpleParametersFactory<TParameters> : IParametersFactory<TParameters>
+        where TParameters : IParameters, new()
     {
-        public static ParameterInfo[] GetDescription(this IParameters parameters)
+        public ParameterInfo[] GetDescription()
         {
-            return parameters
-                .GetType()
+            return typeof(TParameters)
                 .GetProperties()
                 .Select(p => p.GetCustomAttributes(typeof(ParameterInfo), false))
                 .Where(a => a.Length > 0)
@@ -19,8 +19,11 @@ namespace PhotoEnhancer
                 .Cast<ParameterInfo>()
                 .ToArray();
         }
-        public static void SetValues(this IParameters parameters, double[] values)
+
+        public TParameters CreateParameters(double[] values)
         {
+            var parameters = new TParameters();
+
             var properties = parameters
                 .GetType()
                 .GetProperties()
@@ -32,6 +35,8 @@ namespace PhotoEnhancer
 
             for (var i = 0; i < values.Length; i++)
                 properties[i].SetValue(parameters, values[i]);
+
+            return parameters;
         }
     }
 }
