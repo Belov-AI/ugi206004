@@ -18,6 +18,8 @@ namespace TypeReflection
             ListProperties(type);
             ListPrivateFields(type);
             ListInterFaces(type);
+            ListClassDescriptions(type);
+            ListMembersDescriptions(type);
 
             var type2 = Type.GetType("System.Array", false);
             //PrintTypeName(type2);
@@ -27,20 +29,30 @@ namespace TypeReflection
             var type3 = list.GetType();
             //PrintTypeName(type3);
 
-            var obj = new MyClass();
-            obj.PublicProperty = 5;
-            obj.PublicField = -2;
-            var result = obj.PublicMethod(3);
+            //var obj = new MyClass();
+            //obj.PublicProperty = 5;
+            //obj.PublicField = -2;
+            //var result = obj.PublicMethod(3);
 
-            var x = type
-                .GetProperty("PublicProperty")
-                .GetValue(obj);
+            //var x = type
+            //    .GetProperty("PublicProperty")
+            //    .GetValue(obj);
+
+            var obj = type
+                .GetConstructor(new Type[0])
+                .Invoke(new object[0]);
 
             type
                 .GetProperty("PublicProperty")
-                .SetValue(obj, 10);
+                .SetValue(obj, 5);
 
-            obj.PublicProperty = 10;
+            type
+                .GetField("PublicField")
+                .SetValue(obj, -2);
+
+            var result = type
+                .GetMethod("PublicMethod")
+                .Invoke(obj, new object[] { 3 });
 
             Console.ReadKey();
         }
@@ -105,6 +117,56 @@ namespace TypeReflection
                 Console.WriteLine($"-> {iface.Name}");
 
             Console.WriteLine();
+        }
+
+        static void ListClassDescriptions(Type t)
+        {
+            Console.WriteLine("===== Атрибут Description класса =====");
+
+            var descriptions = t
+                .GetCustomAttributes<DescriptionAttribute>();
+
+            foreach(var description in descriptions)
+                Console.WriteLine($"-> {description.Label}");
+
+            Console.WriteLine();
+        }
+
+        static void ListMembersDescriptions(Type t)
+        {
+            Console.WriteLine("===== Атрибут Description полей =====");
+
+            foreach (var field in t.GetFields())
+            {
+                var descrioptions = field.GetCustomAttributes<DescriptionAttribute>();
+                
+                foreach(var description in descrioptions)
+                    Console.WriteLine($"-> {description.Label}");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("===== Атрибут Description свойств =====");
+
+            foreach (var property in t.GetProperties())
+            {
+                var descrioptions = property.GetCustomAttributes<DescriptionAttribute>();
+
+                foreach (var description in descrioptions)
+                    Console.WriteLine($"-> {description.Label}");
+            }
+
+            Console.WriteLine();
+
+            Console.WriteLine("===== Атрибут Description методов =====");
+
+            foreach (var method in t.GetMethods())
+            {
+                var descrioptions = method.GetCustomAttributes<DescriptionAttribute>();
+
+                foreach (var description in descrioptions)
+                    Console.WriteLine($"-> {description.Label}");
+            }
         }
     }
 }

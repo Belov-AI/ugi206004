@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace TypeReflection
 {
+    [Description("Класс для учебного проекта \"Рефлексия типов\"")]
     public class MyClass : IComparable<MyClass>
     {
+        [Description("Открытое поле")]
         public int PublicField;
-        private int privateField;
+
+        private int privateField = 1;
+
+        [Description("Открытое свойство")]
         public int PublicProperty { get; set; }
 
         public int CompareTo(MyClass other)
@@ -17,6 +22,7 @@ namespace TypeReflection
             return this.PublicField.CompareTo(other.PublicField);
         }
 
+        [Description("Открытый метод")]
         public int PublicMethod(int x)
         {
             return x + PublicProperty + privateField;
